@@ -147,7 +147,7 @@ export default function Layout({ children }) {
             <div className="row align-items-center justify-content-md-between">
               <div className="col-md-6">
                 <div className="copyright">
-                  © 2025 <span>COCONUT Computer Club</span>.
+                  © 2026 <span>COCONUT Computer Club</span>.
                 </div>
               </div>
               <div className="col-md-6">
