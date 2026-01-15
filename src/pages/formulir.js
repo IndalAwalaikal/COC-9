@@ -7,98 +7,67 @@ export default function Formulir() {
     email: "",
     noTelp: "",
     asalSekolah: "",
-    // framework: "",
-    // hasJsFramework: false,
-    file: null,
+    buktiFollow: "",
   });
-  const [showFramework, setShowFramework] = useState(false);
-  const [fileName, setFileName] = useState("Upload Bukti Follow Instagram");
 
-  const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/pendaftar/add`;
+  // ✅ FORM_ID & URL yang benar
+  const GOOGLE_FORM_ID =
+    "1FAIpQLSeK-DSl4VgYgZ-fVm81b07Cnp-AH3RdxIRFJ4O1G6vf64Pqiw";
+  const GOOGLE_FORM_URL = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
+
+  // ✅ ENTRY ID YANG VALID (dari HTML Anda)
+  const FIELD_MAP = {
+    namaLengkap: "entry.1155158358",
+    email: "entry.397264821",
+    noTelp: "entry.1584273566",
+    asalSekolah: "entry.69596948",
+    buktiFollow: "entry.681245546",
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prev) => ({ ...prev, file }));
-    setFileName(file ? file.name : "Upload Bukti Follow Instagram");
-  };
-
-  const handleFrameworkToggle = (e) => {
-    const hasJsFramework = e.target.value === "ya";
-    setFormData((prev) => ({
-      ...prev,
-      hasJsFramework,
-      framework: hasJsFramework
-        ? prev.framework
-        : "belum pernah menggunakan framework js",
-    }));
-    setShowFramework(hasJsFramework);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const payload = new FormData();
-    payload.append("nama-lengkap", formData.namaLengkap);
-    payload.append("email", formData.email);
-    payload.append("no-telp", formData.noTelp);
-    payload.append("asal-sekolah", formData.asalSekolah);
-
-    if (formData.file) {
-      payload.append("bukti-follow", formData.file);
-    }
+    const params = new URLSearchParams();
+    params.append(FIELD_MAP.namaLengkap, formData.namaLengkap);
+    params.append(FIELD_MAP.email, formData.email);
+    params.append(FIELD_MAP.noTelp, formData.noTelp);
+    params.append(FIELD_MAP.asalSekolah, formData.asalSekolah);
+    params.append(FIELD_MAP.buktiFollow, formData.buktiFollow);
 
     try {
-      const response = await fetch(endpoint, {
+      await fetch(GOOGLE_FORM_URL, {
         method: "POST",
-        body: payload,
+        mode: "no-cors", // WAJIB untuk Google Form
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: params.toString(),
       });
 
-      let data;
-      try {
-        data = await response.json();
-      } catch (parseError) {
-        const text = await response.text();
-        throw new Error(`Server error: ${text || "Unknown error"}`);
-      }
-
-      if (!response.ok) {
-        // 👇 Handle specific error: email already exists
-        if (
-          data.message &&
-          data.message.toLowerCase().includes("email already exists")
-        ) {
-          alert(
-            "Email ini sudah terdaftar! Silakan gunakan email lain atau hubungi panitia."
-          );
-          return;
-        }
-        throw new Error(data.message || "Pendaftaran gagal");
-      }
-
-      alert("Pendaftaran berhasil!");
-      // Optional: Reset form after success
+      alert("✅ Pendaftaran berhasil! Terima kasih telah mendaftar.");
       setFormData({
         namaLengkap: "",
         email: "",
         noTelp: "",
         asalSekolah: "",
-        file: null,
+        buktiFollow: "",
       });
-      setFileName("Upload Bukti Follow Instagram");
     } catch (error) {
       console.error("Submission error:", error);
-      alert("Gagal mendaftar: " + (error.message || "Terjadi kesalahan"));
+      alert(
+        "❌ Gagal mendaftar. Silakan coba lagi atau hubungi panitia via WhatsApp."
+      );
     }
   };
 
   const openWhatsApp = () => {
     const waLink =
-      "https://wa.me/6282232888136?text=Halo%20saya%20ingin%20bertanya%20tentang%20informasi%20acara";
+      "https://wa.me/6282398309234?text=Halo%20saya%20ingin%20bertanya%20tentang%20informasi%20kegiatan%20Coconut%20Open%20Class%20Batch%209";
     window.open(waLink, "_blank");
   };
 
@@ -120,16 +89,17 @@ export default function Formulir() {
                   data-container="body"
                   data-animation="true"
                 >
-                  COCONUT OPEN CLASS BATCH 8
+                  COCONUT OPEN CLASS BATCH 9
                 </button>
                 <h3 className="text-white">
                   <span className="text-white display-4">
-                    Go REST, Go Fast: Membangun REST API dengan Golang
+                    Beyond SQL Injection: Modern Web Exploitation di Era API &
+                    AI
                   </span>
                 </h3>
               </div>
 
-              {/* Bagian Tabs */}
+              {/* Tabs & Konten tetap sama — dipersingkat untuk fokus pada form */}
               <div className="nav-wrapper">
                 <ul
                   className="nav nav-pills nav-fill flex-column flex-md-row"
@@ -178,41 +148,36 @@ export default function Formulir() {
                 </ul>
               </div>
 
-              {/* Card Konten */}
               <div className="card shadow">
                 <div className="card-body">
                   <div className="tab-content" id="myTabContent">
-                    {/* TAB INFORMASI */}
                     <div
                       className="tab-pane fade show active tab-fixed"
                       id="tabs-icons-text-1"
                       role="tabpanel"
                       aria-labelledby="tabs-icons-text-1-tab"
                     >
+                      {/* Isi tab tetap seperti aslinya — dipersingkat di sini */}
                       <dl className="description-list">
                         <div className="desc-row">
                           <dt>Tipe</dt>
                           <dd>Open Class</dd>
                         </div>
                         <div className="desc-row">
-                          <dt>Pemateri 1</dt>
-                          <dd>Musdalipa</dd>
-                        </div>
-                        <div className="desc-row">
-                          <dt>Pemateri 2</dt>
-                          <dd>Syahrul Ramadhan</dd>
+                          <dt>Pemateri</dt>
+                          <dd>Galbi Nadifah</dd>
                         </div>
                         <div className="desc-row">
                           <dt>Moderator</dt>
-                          <dd>Ahmad Fajrul</dd>
+                          <dd>Bayin Ramadhan</dd>
                         </div>
                         <div className="desc-row">
                           <dt>Materi</dt>
-                          <dd>REST API Golang</dd>
+                          <dd>Modern Web Exploitation</dd>
                         </div>
                         <div className="desc-row">
                           <dt>Tempat</dt>
-                          <dd>IndigoHub Makassar</dd>
+                          <dd>Makassar Creative Hub</dd>
                         </div>
                       </dl>
 
@@ -226,30 +191,38 @@ export default function Formulir() {
                         >
                           Tujuan:
                         </strong>
-                        Pelatihan ini dirancang agar peserta dapat memahami
-                        dasar-dasar pengembangan backend, khususnya dalam
-                        membuat REST API. Peserta akan mempelajari dasar-dasar
-                        bahasa pemrograman Golang untuk membangun fungsionalitas
-                        di sisi server.
+                        Pelatihan ini dirancang untuk memperkenalkan peserta
+                        pada lanskap keamanan aplikasi web modern, dengan fokus
+                        pada teknik eksploitasi yang berkembang melampaui SQL
+                        Injection. Peserta akan mempelajari bagaimana arsitektur
+                        API-driven, penggunaan microservices, serta integrasi AI
+                        membuka vektor serangan baru yang sering luput dari
+                        pengujian keamanan konvensional.
                         <br />
                         <br />
-                        Dengan pendekatan yang praktis, peserta diharapkan mampu
-                        membangun dan mengimplementasikan API sederhana
-                        menggunakan Golang untuk mendukung aplikasi web atau
-                        mobile mereka sendiri setelah mengikuti sesi ini.
+                        Melalui pendekatan praktis dan studi kasus nyata,
+                        peserta akan mengeksplorasi berbagai teknik modern web
+                        exploitation, seperti penyalahgunaan API, insecure
+                        authentication, business logic flaws, serta potensi
+                        risiko keamanan yang muncul dari pemanfaatan AI dalam
+                        aplikasi web. Workshop ini menekankan pemahaman pola
+                        serangan, cara berpikir attacker, serta bagaimana celah
+                        keamanan dapat muncul dalam sistem yang terlihat aman
+                        secara fungsional.
                         <br />
                         <br />
-                        Pada akhirnya, sesi ini akan membekali peserta dengan
-                        keterampilan dasar yang kuat untuk memulai karir sebagai
-                        backend developer. Peserta akan memiliki bekal
-                        pengetahuan yang tidak hanya teoritis, tetapi juga siap
-                        untuk diterapkan dalam proyek pribadi atau profesional
-                        di masa depan.
+                        Pada akhir sesi, peserta diharapkan memiliki pemahaman
+                        konseptual dan teknis yang lebih matang terhadap ancaman
+                        keamanan web masa kini. Bekal ini akan membantu peserta
+                        dalam analisis keamanan, pengujian penetrasi, maupun
+                        pengembangan aplikasi yang lebih aman, baik untuk
+                        kebutuhan akademik, profesional, maupun riset keamanan
+                        siber di masa depan.
                       </p>
 
                       <button type="button" className="btn btn-outline-default">
                         <i className="ni ni-calendar-grid-58 mr-2" />
-                        <b>Jumat, 17 Oktober 2025</b> 13:00 WITA - Selesai
+                        <b>Minggu, 01 Februari 2026</b> 13:00 WITA - Selesai
                       </button>
                       <br />
                       <br />
@@ -260,12 +233,11 @@ export default function Formulir() {
                           style={{ cursor: "pointer" }}
                           onClick={openWhatsApp}
                         >
-                          Risky Akbar
+                          Nawat Sakti
                         </span>
                       </span>
                     </div>
 
-                    {/* TAB TATA TERTIB */}
                     <div
                       className="tab-pane fade tab-fixed"
                       id="tabs-icons-text-2"
@@ -293,23 +265,16 @@ export default function Formulir() {
                       </p>
                     </div>
 
-                    {/* TAB BENEFIT */}
                     <div
                       className="tab-pane fade tab-fixed"
                       id="tabs-icons-text-3"
                       role="tabpanel"
                       aria-labelledby="tabs-icons-text-3-tab"
                     >
-                      {/* <p className="description">
-                        <b>Pendaftaran Gratis</b>
-                        <br />
-                        1. Ilmu Bermanfaat <br />
-                        2. Relasi
-                      </p> */}
                       <p className="description">
                         <b>Pendaftaran Gratis</b>
                         <br />
-                        1. Sertifikat <br />
+                        1. E-Sertifikat <br />
                         2. Modul Pembelajaran <br />
                         3. Ilmu Bermanfaat <br />
                         4. Relasi
@@ -320,7 +285,7 @@ export default function Formulir() {
               </div>
             </div>
 
-            {/* FORMULIR */}
+            {/* FORMULIR — DIPERBARUI */}
             <div className="col-lg-5 mb-lg-auto">
               <div className="transform-perspective-right">
                 <div className="card bg-secondary shadow border-0">
@@ -341,11 +306,7 @@ export default function Formulir() {
                       </small>
                     </div>
 
-                    <form
-                      onSubmit={handleSubmit}
-                      encType="multipart/form-data"
-                      id="register-form"
-                    >
+                    <form onSubmit={handleSubmit} id="register-form">
                       {/* Nama Lengkap */}
                       <div className="form-group mb-3">
                         <div className="input-group input-group-alternative">
@@ -357,7 +318,6 @@ export default function Formulir() {
                           <input
                             type="text"
                             placeholder="Nama Lengkap"
-                            id="nama-lengkap"
                             name="namaLengkap"
                             className="form-control form-control-lg"
                             value={formData.namaLengkap}
@@ -379,7 +339,6 @@ export default function Formulir() {
                             className="form-control form-control-lg"
                             placeholder="Email"
                             type="email"
-                            id="email"
                             name="email"
                             value={formData.email}
                             onChange={handleInputChange}
@@ -399,7 +358,6 @@ export default function Formulir() {
                           <input
                             type="text"
                             className="form-control form-control-lg"
-                            id="no-telp"
                             name="noTelp"
                             placeholder="Masukkan nomor telepon"
                             value={formData.noTelp}
@@ -420,7 +378,6 @@ export default function Formulir() {
                           <input
                             type="text"
                             className="form-control form-control-lg"
-                            id="asal-sekolah"
                             name="asalSekolah"
                             placeholder="Asal perguruan tinggi"
                             value={formData.asalSekolah}
@@ -430,70 +387,25 @@ export default function Formulir() {
                         </div>
                       </div>
 
-                      {/* Pengalaman Framework
+                      {/* Link Bukti Follow (ganti upload file) */}
                       <div className="form-group mb-3">
-                        <label className="text-dark fw-semibold">
-                          Apakah pernah menggunakan framework JavaScript
-                          sebelumnya?
-                        </label>
-                        <div className="form-check form-check-inline">
+                        <div className="input-group input-group-alternative">
+                          <div className="input-group-prepend">
+                            <span className="input-group-text">
+                              <i className="ni ni-image" />
+                            </span>
+                          </div>
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="pengalaman_js"
-                            id="jsFrameworkYa"
-                            value="ya"
-                            checked={formData.hasJsFramework}
-                            onChange={handleFrameworkToggle}
+                            type="url"
+                            className="form-control form-control-lg"
+                            name="buktiFollow"
+                            placeholder="Link screenshot follow @coconutdotorg"
+                            value={formData.buktiFollow}
+                            onChange={handleInputChange}
+                            required
                           />
-                          <label
-                            className="form-check-label text-dark fw-semibold"
-                            htmlFor="jsFrameworkYa"
-                          >
-                            Ya
-                          </label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="pengalaman_js"
-                            id="jsFrameworkTidak"
-                            value="tidak"
-                            checked={!formData.hasJsFramework}
-                            onChange={handleFrameworkToggle}
-                          />
-                          <label
-                            className="form-check-label text-dark fw-semibold"
-                            htmlFor="jsFrameworkTidak"
-                          >
-                            Tidak
-                          </label>
                         </div>
                       </div>
-
-                      {showFramework && (
-                        <div className="form-group mb-3">
-                          <label className="text-dark fw-semibold">
-                            Framework apa yang pernah digunakan?
-                          </label>
-                          <select
-                            className="form-control form-control-lg"
-                            id="framework"
-                            name="framework"
-                            value={formData.framework}
-                            onChange={handleInputChange}
-                          >
-                            <option value="">Pilih framework</option>
-                            <option value="React">React</option>
-                            <option value="Vue">Vue</option>
-                            <option value="Angular">Angular</option>
-                            <option value="Svelte">Svelte</option>
-                            <option value="Next.js">Next.js</option>
-                            <option value="Nuxt.js">Nuxt.js</option>
-                          </select>
-                        </div>
-                      )} */}
 
                       {/* Info Biaya */}
                       <br />
@@ -510,32 +422,10 @@ export default function Formulir() {
                         kami!
                       </small>
 
-                      {/* Upload Bukti Transfer */}
-                      <div className="form-group mb-3">
-                        <div className="input-group input-group-alternative">
-                          <div className="custom-file">
-                            <input
-                              type="file"
-                              className="custom-file-input"
-                              id="buktitf"
-                              name="file"
-                              accept=".jpeg,.jpg,.png"
-                              onChange={handleFileChange}
-                            />
-                            <label
-                              className="custom-file-label text-dark"
-                              htmlFor="buktitf"
-                            >
-                              {fileName}
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-
                       {/* Submit */}
                       <div className="text-center">
                         <button type="submit" className="btn btn-primary my-4">
-                          Kirim
+                          Kirim Pendaftaran
                         </button>
                       </div>
                     </form>

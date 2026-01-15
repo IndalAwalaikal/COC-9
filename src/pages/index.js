@@ -75,10 +75,10 @@ export default function Home() {
                       priority
                     />
                     <p className="display-4 text-white">
-                      COCONUT OPEN CLASS BATCH 8<br />
+                      COCONUT OPEN CLASS BATCH 9<br />
                       <br />
                       <sup>
-                        Go REST, Go Fast: Membangun REST API dengan Golang
+                        Beyond SQL Injection: Modern Web Exploitation di Era API & AI
                       </sup>
                     </p>
                     <div className="btn-wrapper mt-2">

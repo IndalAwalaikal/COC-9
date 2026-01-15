@@ -35,6 +35,12 @@ const dokumentasiData = [
   { src: "/assets/img/dokumentasi/2024-2025/batch4/3.JPG", batch: 7 },
   { src: "/assets/img/dokumentasi/2024-2025/batch4/4.JPG", batch: 7 },
   { src: "/assets/img/dokumentasi/2024-2025/batch4/5.JPG", batch: 7 },
+
+  { src: "/assets/img/dokumentasi/2025-2026/batch1/1.JPG", batch: 8 },
+  { src: "/assets/img/dokumentasi/2025-2026/batch1/2.JPG", batch: 8 },
+  { src: "/assets/img/dokumentasi/2025-2026/batch1/3.JPG", batch: 8 },
+  { src: "/assets/img/dokumentasi/2025-2026/batch1/4.JPG", batch: 8 },
+  { src: "/assets/img/dokumentasi/2025-2026/batch1/5.JPG", batch: 8 },
   
 ];
 
@@ -61,7 +67,7 @@ export default function Dokumentasi() {
           </div>
 
           <div className="text-center mb-4">
-            {["all", 1, 2, 3, 4, 5, 6, 7].map((batch) => (
+            {["all", 1, 2, 3, 4, 5, 6, 7, 8].map((batch) => (
               <button
                 key={batch}
                 className={`btn btn-default filter-button m-1 ${

@@ -77,11 +77,11 @@ export default function Pendaftar() {
             <div className="col-lg-12">
               <div className="mb-3">
                 <button type="button" className="btn btn-sm btn-success">
-                  COCONUT OPEN CLASS BATCH 8
+                  COCONUT OPEN CLASS BATCH 9
                 </button>
                 <h3 className="text-white">
                   <span className="display-4">
-                    Go REST, Go Fast: Membangun REST API dengan Golang
+                    Beyond SQL Injection: Modern Web Exploitation di Era API & AI
                   </span>
                 </h3>
               </div>
