@@ -60,7 +60,7 @@ export default function Formulir() {
     } catch (error) {
       console.error("Submission error:", error);
       alert(
-        "❌ Gagal mendaftar. Silakan coba lagi atau hubungi panitia via WhatsApp."
+        "❌ Gagal mendaftar. Silakan coba lagi atau hubungi panitia via WhatsApp.",
       );
     }
   };
@@ -387,8 +387,23 @@ export default function Formulir() {
                         </div>
                       </div>
 
-                      {/* Link Bukti Follow (ganti upload file) */}
+                      {/* Link Bukti Follow */}
                       <div className="form-group mb-3">
+                        <small className="text-muted d-block mb-2">
+                          Upload screenshot follow Instagram{" "}
+                          <b>@coconutdotorg</b> ke{" "}
+                          <a
+                            href="https://freeimage.host/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary fw-semibold"
+                          >
+                            freeimage.host
+                          </a>{" "}
+                          lalu salin dan tempelkan <b>Direct Image Link</b> di
+                          bawah ini.
+                        </small>
+
                         <div className="input-group input-group-alternative">
                           <div className="input-group-prepend">
                             <span className="input-group-text">
@@ -399,7 +414,7 @@ export default function Formulir() {
                             type="url"
                             className="form-control form-control-lg"
                             name="buktiFollow"
-                            placeholder="Link screenshot follow @coconutdotorg"
+                            placeholder="https://iili.io/xxxxxx.png"
                             value={formData.buktiFollow}
                             onChange={handleInputChange}
                             required
